@@ -25,7 +25,7 @@ exports.handler = async (event, _, callback) => {
 
     callback(null, { statusCode: 200 })
   } catch(e) {
-    console.log('Lambda failed for event', event, 'with error', e)
+    console.log('Lambda failed for data', event, 'with error', e)
 
     callback(null, { statusCode: 500 })
   }
