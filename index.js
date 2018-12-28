@@ -35,7 +35,7 @@ const parseTouples = ({ bodies }) => {
   const { window } = new JSDOM(bodies.find(({ type }) => type === 'text/html').content)
 
   return Array.from(window.document.querySelectorAll('table tr'))
-    .filter(el => /\>datevuelta\<\/span\>/gmi.test(el.innerHTML))
+    .filter(el => /\>datevuelta/gmi.test(el.innerHTML))
     .map((row) => Array.from(row.querySelectorAll('td'))
     .slice(-2)
     .map(el => el.textContent.trim()))
