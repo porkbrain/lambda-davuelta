@@ -43,4 +43,5 @@ const parseTouples = ({ bodies }) => {
     .map((row) => Array.from(row.querySelectorAll('td'))
     .slice(-2)
     .map(el => el.textContent.trim()))
+    .filter(touple => touple.every(Boolean))
 }
