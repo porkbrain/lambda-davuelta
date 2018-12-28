@@ -1,0 +1,8 @@
+{
+  "lambda": {
+    "role": "arn:aws:iam::365488455739:role/lambda_sns",
+    "name": "davuelta-resend-codes",
+    "region": "eu-central-1",
+    "sharedRole": true
+  }
+}

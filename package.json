@@ -1,0 +1,19 @@
+{
+  "name": "lambda-resend-codes",
+  "version": "1.0.0",
+  "description": "Resends email content as sms.",
+  "main": "index.js",
+  "scripts": {
+    "create": "claudia create --name davuelta-resend-codes --region eu-central-1 --handler index.handler --role arn:aws:iam::365488455739:role/lambda_sns --config claudia.json",
+    "deploy": "claudia update --config claudia.json"
+  },
+  "author": "Michael Bausano",
+  "license": "ISC",
+  "devDependencies": {
+    "claudia": "^5.3.0"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.382.0",
+    "jsdom": "^13.1.0"
+  }
+}
