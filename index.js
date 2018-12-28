@@ -14,6 +14,10 @@ exports.handler = async (event, _, callback) => {
 
     console.log('Touples', touples)
 
+    if (touples.length > 10) {
+      throw new Error('Number of matches too high.')
+    }
+
     await Promise.all(touples.map((touple) => {
       return new AWS.SNS({ apiVersion: '2010-03-31' })
         .publish({
