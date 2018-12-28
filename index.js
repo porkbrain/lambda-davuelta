@@ -14,7 +14,7 @@ exports.handler = async (event, _, callback) => {
 
     console.log('Touples', touples)
 
-    if (touples.length > 10) {
+    if (touples.length > process.env.MAX_CODES) {
       throw new Error('Number of matches too high.')
     }
 
