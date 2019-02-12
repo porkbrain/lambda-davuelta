@@ -31,7 +31,7 @@ exports.handler = async (event, _, callback) => {
 }
 
 const parseTouples = (body) => {
-  const regex = /(?<=datevuelta).+(\d{12}).+([a-z0-9]{6}\/\d{2}\/\d{4})/gmi
+  const regex = /(\d{12}).{0,10}([a-z0-9]{4,7}\/\d{2}\/\d{4})/gmi
 
   const res = regex.exec(body.replace(/\n/gmi, ''))
 
