@@ -1,6 +1,5 @@
 const AWS = require('aws-sdk')
 AWS.config.update({ region: 'eu-west-1' })
-const { JSDOM } = require("jsdom")
 
 exports.handler = async (event, _, callback) => {
   try {
@@ -12,7 +11,7 @@ exports.handler = async (event, _, callback) => {
       throw new Error('Number of matches too high.')
     }
 
-    await Promise.all(touples.map((touple) => {
+    const sns = await Promise.all(touples.map((touple) => {
       return new AWS.SNS({ apiVersion: '2010-03-31' })
         .publish({
           Message: touple.join(' ; '),
@@ -20,6 +19,8 @@ exports.handler = async (event, _, callback) => {
         })
         .promise()
     }))
+
+    console.log('Topics', sns)
 
     callback(null, { statusCode: 200 })
   } catch(e) {
