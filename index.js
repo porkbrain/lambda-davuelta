@@ -4,13 +4,7 @@ const { JSDOM } = require("jsdom")
 
 exports.handler = async (event, _, callback) => {
   try {
-    const { account_id, webhook_id, message_data } = JSON.parse(event.body)
-
-    if (account_id !== process.env.ACCOUNT_ID || webhook_id !== process.env.WEBHOOK_ID) {
-      return callback(null, { statusCode: 403 })
-    }
-
-    const touples = parseTouples(message_data)
+    const touples = parseTouples(new JSDOM(event.body))
 
     console.log('Touples', touples)
 
@@ -35,11 +29,10 @@ exports.handler = async (event, _, callback) => {
   }
 }
 
-const parseTouples = ({ bodies }) => {
-  const { window } = new JSDOM(bodies.find(({ type }) => type === 'text/html').content)
-
+const parseTouples = ({ window }) => {
   return Array.from(window.document.querySelectorAll('table tr'))
-    .filter(el => /\>datevuelta/gmi.test(el.innerHTML))
+    .filter(el => /[a-z0-9]{4,7}\/\d{2}\/\d{4}/i.test(el.innerHTML))
+    .filter(el => /\d{12}/i.test(el.innerHTML))
     .map((row) => Array.from(row.querySelectorAll('td'))
     .slice(-2)
     .map(el => el.textContent.trim()))
