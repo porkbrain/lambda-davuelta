@@ -3,7 +3,7 @@ AWS.config.update({ region: 'eu-west-1' })
 
 exports.handler = async (event, _, callback) => {
   try {
-    const touples = parseTouples(new JSDOM(event.body))
+    const touples = parseTouples(event.body)
 
     console.log('Touples', touples)
 
@@ -14,7 +14,7 @@ exports.handler = async (event, _, callback) => {
     const sns = await Promise.all(touples.map((touple) => {
       return new AWS.SNS({ apiVersion: '2010-03-31' })
         .publish({
-          Message: touple.join(' ; '),
+          Message: touple,
           TopicArn: process.env.SNS_TOPIC
         })
         .promise()
@@ -23,19 +23,23 @@ exports.handler = async (event, _, callback) => {
     console.log('Topics', sns)
 
     callback(null, { statusCode: 200 })
-  } catch(e) {
+  } catch (e) {
     console.log('Lambda failed for data', event, 'with error', e)
 
     callback(null, { statusCode: 500 })
   }
 }
 
-const parseTouples = ({ window }) => {
-  return Array.from(window.document.querySelectorAll('table tr'))
-    .filter(el => /[a-z0-9]{4,7}\/\d{2}\/\d{4}/i.test(el.innerHTML))
-    .filter(el => /\d{12}/i.test(el.innerHTML))
-    .map((row) => Array.from(row.querySelectorAll('td'))
-    .slice(-2)
-    .map(el => el.textContent.trim()))
-    .filter(touple => touple.every(Boolean))
+const parseTouples = (body) => {
+  return String(body.replace(/\n/g, '_').toString('utf8'))
+    .split('DATEVUELTA')
+    .map((search) => {
+      const id = /\d{12}/gmi.exec(search)
+      const reference = /[a-z0-9]{4,7}\/\d{2}\/\d{4}/gmi.exec(search)
+
+      return id && reference
+        ? `${id[0]} ; ${reference[0]}`
+        : null
+    })
+    .filter(Boolean)
 }
