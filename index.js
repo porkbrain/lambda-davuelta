@@ -7,7 +7,7 @@ AWS.config.update({ region: 'eu-west-1' })
 const parsers = [
   (body) => {
     // Finds a number which is prepended by JIK string.
-    const jik = /JIK č\.(\d+),/.exec(body)
+    const jik = /JIK č\.(\d+),/i.exec(body)
     return jik ? [`molcesko: ${jik[0]}`] : []
   },
   (body) => {
@@ -32,6 +32,7 @@ const parsers = [
 
 exports.handler = async (event, _, callback) => {
   try {
+    console.log('Got a new event: ', event)
     let tuples = []
     for (const parser of parsers) {
       tuples = parser(event.body)
