@@ -9,6 +9,6 @@
     "package": "mkdir -p zip && zip zip/${npm_package_name}_v${npm_package_version}.zip index.js"
   },
   "dependencies": {
-    "aws-sdk": "^2.638.0"
+    "aws-sdk": "^2.814.0"
   }
 }
