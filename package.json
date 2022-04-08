@@ -1,6 +1,6 @@
 {
   "name": "lambda-resend-codes",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "Resends email content as sms.",
   "main": "index.js",
   "author": "Michael Bausano",
@@ -9,6 +9,9 @@
     "package": "mkdir -p zip && zip zip/${npm_package_name}_v${npm_package_version}.zip index.js"
   },
   "dependencies": {
-    "aws-sdk": "^2.638.0"
+    "mailparser": "^2.8.1"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.931.0"
   }
 }
