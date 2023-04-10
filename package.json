@@ -12,6 +12,6 @@
     "mailparser": "^2.8.1"
   },
   "devDependencies": {
-    "aws-sdk": "^2.931.0"
+    "aws-sdk": "^2.1354.0"
   }
 }
